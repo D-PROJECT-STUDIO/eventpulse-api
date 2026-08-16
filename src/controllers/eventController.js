@@ -1,4 +1,5 @@
 import Event from '../models/Event.js';
+import '../models/Category.js';
 import AppError from '../utils/AppError.js';
 import asyncHandler from '../utils/asyncHandler.js';
 
