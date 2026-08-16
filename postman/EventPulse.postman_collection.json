@@ -1,0 +1,125 @@
+{
+  "info": {
+    "name": "EventPulse API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Fady\",\n  \"email\": \"fady@example.com\",\n  \"password\": \"password123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/register"
+          },
+          "response": [{ "name": "Created", "status": "Created", "code": 201, "header": [], "body": "{\n  \"status\": \"success\",\n  \"token\": \"jwt-token\"\n}" }]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@eventpulse.com\",\n  \"password\": \"admin123\"\n}" },
+            "url": "{{baseUrl}}/api/auth/login"
+          },
+          "response": [{ "name": "Success", "status": "OK", "code": 200, "header": [], "body": "{\n  \"status\": \"success\",\n  \"token\": \"jwt-token\"\n}" }]
+        }
+      ]
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "List Events",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/events?page=1&limit=10" },
+          "response": [{ "name": "Success", "status": "OK", "code": 200, "header": [], "body": "{\n  \"status\": \"success\",\n  \"total\": 3,\n  \"page\": 1,\n  \"limit\": 10,\n  \"totalPages\": 1,\n  \"data\": []\n}" }]
+        },
+        {
+          "name": "Get Event",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/events/{{eventId}}" },
+          "response": [{ "name": "Success", "status": "OK", "code": 200, "header": [], "body": "{\n  \"status\": \"success\",\n  \"data\": { \"title\": \"Cairo Tech Day\" }\n}" }]
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Cairo Tech Day\",\n  \"description\": \"Technology talks and workshops\",\n  \"category\": \"{{categoryId}}\",\n  \"date\": \"2026-10-15T10:00:00.000Z\",\n  \"city\": \"Cairo\",\n  \"venue\": \"Smart Village\",\n  \"capacity\": 100\n}" },
+            "url": "{{baseUrl}}/api/events"
+          },
+          "response": [{ "name": "Created", "status": "Created", "code": 201, "header": [], "body": "{\n  \"status\": \"success\",\n  \"data\": { \"title\": \"Cairo Tech Day\" }\n}" }]
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"capacity\": 120\n}" },
+            "url": "{{baseUrl}}/api/events/{{eventId}}"
+          },
+          "response": [{ "name": "Success", "status": "OK", "code": 200, "header": [], "body": "{\n  \"status\": \"success\",\n  \"data\": { \"capacity\": 120 }\n}" }]
+        },
+        {
+          "name": "Delete Event",
+          "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/events/{{eventId}}" },
+          "response": [{ "name": "Deleted", "status": "No Content", "code": 204, "header": [], "body": "" }]
+        }
+      ]
+    },
+    {
+      "name": "Registrations",
+      "item": [
+        {
+          "name": "Register For Event",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"eventId\": \"{{eventId}}\"\n}" },
+            "url": "{{baseUrl}}/api/registrations"
+          },
+          "response": [{ "name": "Created", "status": "Created", "code": 201, "header": [], "body": "{\n  \"status\": \"success\",\n  \"data\": { \"event\": {} }\n}" }]
+        },
+        {
+          "name": "My Registrations",
+          "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/registrations/my" },
+          "response": [{ "name": "Success", "status": "OK", "code": 200, "header": [], "body": "{\n  \"status\": \"success\",\n  \"data\": []\n}" }]
+        },
+        {
+          "name": "Cancel Registration",
+          "request": { "method": "DELETE", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/registrations/{{registrationId}}" },
+          "response": [{ "name": "Success", "status": "OK", "code": 200, "header": [], "body": "{\n  \"status\": \"success\",\n  \"message\": \"Registration cancelled successfully\"\n}" }]
+        }
+      ]
+    },
+    {
+      "name": "Announcements",
+      "item": [
+        {
+          "name": "Announcement History",
+          "request": { "method": "GET", "header": [], "url": "{{baseUrl}}/api/announcements/{{eventId}}" },
+          "response": [{ "name": "Success", "status": "OK", "code": 200, "header": [], "body": "{\n  \"status\": \"success\",\n  \"data\": []\n}" }]
+        },
+        {
+          "name": "Send Announcement",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"eventId\": \"{{eventId}}\",\n  \"text\": \"The event starts in 15 minutes\"\n}" },
+            "url": "{{baseUrl}}/api/announcements"
+          },
+          "response": [{ "name": "Created", "status": "Created", "code": 201, "header": [], "body": "{\n  \"status\": \"success\",\n  \"data\": { \"text\": \"The event starts in 15 minutes\" }\n}" }]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" },
+    { "key": "categoryId", "value": "" },
+    { "key": "eventId", "value": "" },
+    { "key": "registrationId", "value": "" }
+  ]
+}
