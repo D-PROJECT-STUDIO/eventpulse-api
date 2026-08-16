@@ -86,4 +86,4 @@ The Postman collection and development environment are inside the `postman` fold
 
 ## Live API
 
-Deployment link: `DEPLOYMENT_LINK`
+Deployment link: https://eventpulse-api-zeta.vercel.app
